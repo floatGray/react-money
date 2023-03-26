@@ -7,17 +7,11 @@ import { Welcome4 } from '../pages/Welcome4'
 export const WelcomeRoutes = {
   path: 'welcome',
   element: <WelcomeLayout/>,
-  children: [{
-    path: '1',
-    element: <Welcome1/>,
-  }, {
-    path: '2',
-    element: <Welcome2/>,
-  }, {
-    path: '3',
-    element: <Welcome3/>,
-  }, {
-    path: '4',
-    element: <Welcome4/>,
-  }],
+  children: [
+    { index: true, element: <Welcome1/> },
+    { path: '1', element: <Welcome1/> },
+    { path: '2', element: <Welcome2/> },
+    { path: '3', element: <Welcome3/> },
+    { path: '4', element: <Welcome4/> },
+  ],
 }
