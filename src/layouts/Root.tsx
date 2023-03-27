@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom'
-export const MainLayout: React.FC = () => {
+export const Root: React.FC = () => {
   const hasRead = localStorage.getItem('hasReadWelcomes')
   if (hasRead === 'yes')
     return <Navigate to='/home'/>
