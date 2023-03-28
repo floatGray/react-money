@@ -4,7 +4,10 @@ import Unocss from 'unocss/vite'
 import { viteMockServe } from 'vite-plugin-mock'
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  define: {
+    isDev: command === 'serve'
+  },
   plugins: [
     Unocss(),
     react(),
