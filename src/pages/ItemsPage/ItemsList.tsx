@@ -20,7 +20,7 @@ export const ItemsList: React.FC<Props> = ({ items }) => {
           <div row-start-1 col-start-3 row-end-2 col-end-4 text="#53A867">
             ￥999
           </div>
-        </li>,
+        </li>
       )}
     </ol>
     <div p-16px>

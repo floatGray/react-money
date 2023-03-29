@@ -1,5 +1,4 @@
 import s from './TimeRangePicker.module.scss'
-
 export type TimeRange = 'thisMonth' | 'lastMonth' | 'thisYear' | 'custom'
 interface Props {
   selected: TimeRange
@@ -11,7 +10,6 @@ const timeRanges: { key: TimeRange; text: string }[] = [
   { key: 'thisYear', text: '今年' },
   { key: 'custom', text: '自定义时间' },
 ]
-
 export const TimeRangePicker: React.FC<Props> = ({ selected, onSelected }) => {
   return (
     <ol flex text-white children-px-24px children-py-12px cursor-pointer>

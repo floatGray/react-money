@@ -2,11 +2,6 @@ import styled from 'styled-components'
 import c from 'classnames'
 import { Icon } from './Icon'
 
-interface Props {
-  className?: string
-  message?: string
-}
-
 const Div = styled.div`
   @keyframes spin {
     0% {
@@ -21,11 +16,16 @@ const Div = styled.div`
   }
 `
 
+interface Props {
+  className?: string
+  message?: string
+}
+
 export const Loading: React.FC<Props> = ({ className, message }) => {
   return (
     <Div className={c('flex flex-col justify-center items-center', className)}>
-    <Icon name="loading" className='w-128px h-128px' />
-    <p p-8px text-lg>{message || '加载中'}</p>
-  </Div>
+      <Icon name="loading" className='w-128px h-128px' />
+      <p p-8px text-lg>{message || '加载中……'}</p>
+    </Div>
   )
 }
