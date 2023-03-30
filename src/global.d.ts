@@ -29,3 +29,4 @@ interface Item {
   kind: 'expenses' | 'incomes'
   deleted_at?: string
 }
+type JSONValue = string | number | boolean | null | { [k: string]: JSONValue } | JSONValue[]
