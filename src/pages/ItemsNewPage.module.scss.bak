@@ -1,5 +1,0 @@
-.wrapper{
-    :global {
-      .itemsNewPage-menu-item{ flex: 1}
-    }
-  }
