@@ -1,5 +1,6 @@
-import { create } from 'zustand'
-import type { FormError } from '../lib/val'
+import create from 'zustand'
+import type { FormError } from '../lib/validate'
+
 type Data = {
   email: string
   code: string
@@ -16,28 +17,28 @@ export const useSignInStore = create<SignIn>((set, get) => (
   {
     data: {
       email: '',
-      code: '',
+      code: ''
     },
     error: {
       email: [],
-      code: [],
+      code: []
     },
     setData: (data: Partial<Data>) => {
       set(state => ({
         ...state,
         data: {
           ...state.data,
-          ...data,
-        },
+          ...data
+        }
       }))
     },
     setError: (error: Partial<FormError<Data>>) => {
       set(state => ({
         ...state,
         error: {
-          ...error,
-        },
+          ...error
+        }
       }))
-    },
+    }
   }
 ))

@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import useSWRInfinite from 'swr/infinite'
 import { ajax } from '../../lib/ajax'
 interface Props {
-
 }
 const Div = styled.div`
   padding: 16px;
@@ -17,7 +16,6 @@ const getKey = (pageIndex: number, prev: Resources<Item>) => {
   }
   return `/api/v1/items?page=${pageIndex + 1}`
 }
-
 export const ItemsList: React.FC<Props> = () => {
   const { data, error, size, setSize } = useSWRInfinite(
     getKey,
@@ -63,7 +61,7 @@ export const ItemsList: React.FC<Props> = () => {
           )
         })
       }</ol>
-     {error && <Div>数据加载失败，请刷新页面</Div>}
+      {error && <Div>数据加载失败，请刷新页面</Div>}
       {!hasMore
         ? <Div>没有更多数据了</Div>
         : isLoading
