@@ -1,0 +1,41 @@
+{
+  "name": "react-money",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build --base=/react-money-preview/",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "@react-spring/web": "^9.7.1",
+    "axios": "^1.3.4",
+    "classnames": "^2.3.2",
+    "mockjs": "^1.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.9.0",
+    "sass": "^1.60.0",
+    "styled-components": "^5.3.9",
+    "svgo": "^3.0.2",
+    "svgstore": "^3.0.1",
+    "swr": "^2.1.1",
+    "zustand": "^4.3.6"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.37.0",
+    "@faker-js/faker": "^7.6.0",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@types/styled-components": "^5.1.26",
+    "@vitejs/plugin-react": "^3.1.0",
+    "eslint": "^8.36.0",
+    "typescript": "^4.9.3",
+    "unocss": "^0.50.6",
+    "vite": "^4.2.0",
+    "vite-plugin-mock": "^2.9.6"
+  }
+}

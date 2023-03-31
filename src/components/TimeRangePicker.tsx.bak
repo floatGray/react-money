@@ -1,4 +1,5 @@
 import { Tabs } from './Tabs'
+
 export type TimeRange = 'thisMonth' | 'lastMonth' | 'thisYear' | 'custom'
 interface Props {
   selected: TimeRange

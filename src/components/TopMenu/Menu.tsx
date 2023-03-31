@@ -24,7 +24,7 @@ export const Menu: React.FC<Props> = ({ className }) => {
           <NavLink flex items-center px-16px py-8px mb-4px to={item.to}>
             <MyIcon name={item.icon} />{item.text}
           </NavLink>
-        </li>
+        </li>,
       )}
     </ul>
   )

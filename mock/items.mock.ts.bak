@@ -6,6 +6,7 @@ const createId = () => {
   id += 1
   return id
 }
+
 const create = (attrs?: Partial<Item>): Item => {
   return {
     id: createId(),
@@ -42,6 +43,6 @@ export const itemsMock: MockMethod = {
   method: 'get',
   statusCode: 200,
   response: ({ query }: ResponseParams): Resources<Item> =>
-    createResponse({ count: 30, perPage: 10, page: parseInt(query.page) })
+    createResponse({ count: 40, perPage: 10, page: parseInt(query.page) })
   ,
 }

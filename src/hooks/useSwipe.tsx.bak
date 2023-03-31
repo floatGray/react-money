@@ -24,16 +24,20 @@ export const useSwipe = (elementRef: RefObject<HTMLElement>, config?: Config) =>
     if (Math.abs(dx) > Math.abs(dy)) {
       if (Math.abs(dx) < 3)
         setDirection('')
+
       else if (dx > 0)
         setDirection('right')
+
       else
         setDirection('left')
     }
     else {
       if (Math.abs(dy) < 3)
         setDirection('')
+
       else if (dy > 0)
         setDirection('down')
+
       else
         setDirection('up')
     }

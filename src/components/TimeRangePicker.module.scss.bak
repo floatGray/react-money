@@ -1,7 +1,6 @@
-.selected {
+.selected{
   position: relative;
-
-  &::after {
+  &::after{
     content: '';
     position: absolute;
     bottom: 0;
