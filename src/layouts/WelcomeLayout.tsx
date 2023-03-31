@@ -29,14 +29,15 @@ export const WelcomeLayout: React.FC = () => {
     onRest: () => {
       animating.current = false
       setExtraStyle({ position: 'relative' })
-    }
+    },
   })
   const main = useRef<HTMLElement>(null)
   const { direction } = useSwipe(main, { onTouchStart: e => e.preventDefault() })
   const nav = useNavigate()
   useEffect(() => {
     if (direction === 'left') {
-      if (animating.current) { return }
+      if (animating.current)
+        return
       animating.current = true
       nav(linkMap[location.pathname])
     }
@@ -47,6 +48,7 @@ export const WelcomeLayout: React.FC = () => {
   }
   return (
     <div className="bg-#5f34bf" h-screen flex flex-col items-stretch pb-16px>
+      <Link fixed text-white top-16px right-16px text-32px to="/welcome/xxx">跳过</Link>
       <header shrink-0 text-center pt-64px>
         <img src={logo} w-64px h-69px />
         <h1 text="#D4D4EE" text-32px>山竹记账</h1>
@@ -57,14 +59,9 @@ export const WelcomeLayout: React.FC = () => {
             <div grow-1 bg-white flex justify-center items-center rounded-8px>
               {map.current[pathname]}
             </div>
-          </animated.div>
+          </animated.div>,
         )}
       </main>
-      <footer shrink-0 text-center text-24px text-white grid grid-cols-3 grid-rows-1>
-        <Link style={{ gridArea: '1 / 2 / 2 / 3' }} to={linkMap[location.pathname]}>下一页</Link>
-        <Link style={{ gridArea: '1 / 3 / 2 / 4' }} to="/home" onClick={onSkip}>跳过</Link>
-      </footer>
     </div>
   )
 }
-

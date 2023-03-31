@@ -11,22 +11,20 @@ interface Props {
 export const Home: React.FC<Props> = (props) => {
   useTitle(props.title)
   const { data: meData, error: meError } = useSWR('/api/v1/me', async path =>
-    (await ajax.get<Resource<User>>(path)).data.resource
+    (await ajax.get<Resource<User>>(path)).data.resource,
   )
   const { data: itemsData, error: itemsError } = useSWR(meData ? '/api/v1/items' : null, async path =>
-    (await ajax.get<Resources<Item>>(path)).data
+    (await ajax.get<Resources<Item>>(path)).data,
   )
 
   const isLoadingMe = !meData && !meError
   const isLoadingItems = meData && !itemsData && !itemsError
 
-  if (isLoadingMe || isLoadingItems) {
+  if (isLoadingMe || isLoadingItems)
     return <Loading className="h-screen" />
-  }
 
-  if (itemsData?.resources[0]) {
+  if (itemsData?.resources[0])
     return <Navigate to="/items" />
-  }
 
   return <div>
     <div flex justify-center items-center>
