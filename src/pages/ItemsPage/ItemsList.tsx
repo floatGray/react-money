@@ -11,8 +11,7 @@ const getKey = (pageIndex: number, prev: Resources<Item>) => {
   if (prev) {
     const sendCount = (prev.pager.page - 1) * prev.pager.per_page + prev.resources.length
     const count = prev.pager.count
-    if (sendCount >= count)
-      return null
+    if (sendCount >= count) { return null }
   }
   return `/api/v1/items?page=${pageIndex + 1}`
 }
@@ -20,7 +19,7 @@ export const ItemsList: React.FC<Props> = () => {
   const { data, error, size, setSize } = useSWRInfinite(
     getKey,
     async path => (await ajax.get<Resources<Item>>(path)).data,
-    { revalidateFirstPage: false },
+    { revalidateFirstPage: false }
   )
   const onLoadMore = () => {
     setSize(size + 1)
@@ -33,8 +32,7 @@ export const ItemsList: React.FC<Props> = () => {
       {error && <Div>数据加载失败，请刷新页面</Div>}
       {isLoading && <Div>数据加载中...</Div>}
     </div>
-  }
-  else {
+  } else {
     const last = data[data.length - 1]
     const { page, per_page, count } = last.pager
     const hasMore = (page - 1) * per_page + last.resources.length < count
@@ -57,7 +55,7 @@ export const ItemsList: React.FC<Props> = () => {
               <div row-start-1 col-start-3 row-end-2 col-end-4 text="#53A867">
                 ￥{item.amount / 100}
               </div>
-            </li>,
+            </li>
           )
         })
       }</ol>

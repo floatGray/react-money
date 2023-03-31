@@ -22,20 +22,21 @@ export const useSwipe = (elementRef: RefObject<HTMLElement>, config?: Config) =>
     const dx = newX - x.current
     const dy = newY - y.current
     if (Math.abs(dx) > Math.abs(dy)) {
-      if (Math.abs(dx) < 3)
+      if (Math.abs(dx) < 3) {
         setDirection('')
-      else if (dx > 0)
+      } else if (dx > 0) {
         setDirection('right')
-      else
+      } else {
         setDirection('left')
-    }
-    else {
-      if (Math.abs(dy) < 3)
+      }
+    } else {
+      if (Math.abs(dy) < 3) {
         setDirection('')
-      else if (dy > 0)
+      } else if (dy > 0) {
         setDirection('down')
-      else
+      } else {
         setDirection('up')
+      }
     }
   }
   const onTouchEnd = (e: TouchEvent) => {
@@ -43,14 +44,12 @@ export const useSwipe = (elementRef: RefObject<HTMLElement>, config?: Config) =>
     setDirection('')
   }
   useEffect(() => {
-    if (!elementRef.current)
-      return
+    if (!elementRef.current) { return }
     elementRef.current.addEventListener('touchstart', onTouchStart)
     elementRef.current.addEventListener('touchmove', onTouchMove)
     elementRef.current.addEventListener('touchend', onTouchEnd)
     return () => {
-      if (!elementRef.current)
-        return
+      if (!elementRef.current) { return }
       elementRef.current.removeEventListener('touchstart', onTouchStart)
       elementRef.current.removeEventListener('touchmove', onTouchMove)
       elementRef.current.removeEventListener('touchend', onTouchEnd)

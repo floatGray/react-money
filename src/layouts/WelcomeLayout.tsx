@@ -29,15 +29,14 @@ export const WelcomeLayout: React.FC = () => {
     onRest: () => {
       animating.current = false
       setExtraStyle({ position: 'relative' })
-    },
+    }
   })
   const main = useRef<HTMLElement>(null)
   const { direction } = useSwipe(main)
   const nav = useNavigate()
   useEffect(() => {
     if (direction === 'left') {
-      if (animating.current)
-        return
+      if (animating.current) { return }
       animating.current = true
       nav(linkMap[location.pathname])
     }
@@ -60,9 +59,10 @@ export const WelcomeLayout: React.FC = () => {
             <div grow-1 bg-white flex justify-center items-center rounded-8px>
               {map.current[pathname]}
             </div>
-          </animated.div>,
+          </animated.div>
         )}
       </main>
     </div>
   )
 }
+

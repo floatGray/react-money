@@ -16,7 +16,7 @@ const create = (attrs?: Partial<Item>): Item => {
     created_at: faker.date.past().toISOString(),
     updated_at: faker.date.past().toISOString(),
     kind: 'expenses',
-    ...attrs,
+    ...attrs
   }
 }
 
@@ -24,7 +24,7 @@ const createList = (n: number, attrs?: Partial<Item>): Item[] => {
   return Array.from({ length: n }).map(() => create(attrs))
 }
 
-const createResponse = ({ count = 10, perPage = 10, page = 1 }, attrs?: Partial<Item>): Resources<Item> => {
+const createResponse = ({ count = 10, perPage = 10, page = 1 }, attrs?: Partial<Item>,): Resources<Item> => {
   const sendCount = (page - 1) * perPage
   const left = count - sendCount
   return {
@@ -32,8 +32,8 @@ const createResponse = ({ count = 10, perPage = 10, page = 1 }, attrs?: Partial<
     pager: {
       page,
       per_page: perPage,
-      count,
-    },
+      count
+    }
   }
 }
 

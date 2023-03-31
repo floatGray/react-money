@@ -5,5 +5,5 @@ import { sessionMock } from './session.mock'
 export default [
   meMock,
   itemsMock,
-  sessionMock,
+  sessionMock
 ] as MockMethod[]

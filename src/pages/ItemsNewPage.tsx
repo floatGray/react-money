@@ -12,7 +12,7 @@ export const ItemsNewPage: React.FC = () => {
   const tabItems: { key: Item['kind']; text: string; element?: ReactNode }[]
     = [
       { key: 'expenses', text: '支出', element: <Tags kind="expenses" /> },
-      { key: 'income', text: '收入', element: <Tags kind="income" /> },
+      { key: 'income', text: '收入', element: <Tags kind="income" /> }
     ]
   const [tabItem, setTabItem] = useState<Item['kind']>('expenses')
   return (

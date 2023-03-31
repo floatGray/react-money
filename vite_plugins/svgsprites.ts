@@ -1,5 +1,5 @@
-import path from 'node:path'
-import fs from 'node:fs'
+import path from 'path'
+import fs from 'fs'
 import store from 'svgstore'
 import { optimize } from 'svgo'
 import type { Plugin, ViteDevServer } from 'vite'
@@ -19,8 +19,7 @@ export const svgsprites = (options: Options = {}): Plugin => {
     const sprites = store(options)
     const iconsDir = path.resolve(inputFolder)
     for (const file of fs.readdirSync(iconsDir)) {
-      if (!file.endsWith('.svg'))
-        continue
+      if (!file.endsWith('.svg')) { continue }
       const filepath = path.join(iconsDir, file)
       const svgId = path.parse(file).name
       const code = fs.readFileSync(filepath, { encoding: 'utf-8' })
@@ -37,13 +36,11 @@ export const svgsprites = (options: Options = {}): Plugin => {
     return sprites.toString({ inline })
   }
   const handleFileCreationOrUpdate = (file: string, server: ViteDevServer) => {
-    if (!file.includes(inputFolder))
-      return
+    if (!file.includes(inputFolder)) { return }
     const code = generateCode()
     server.ws.send('svgsprites:change', { code })
     const mod = server.moduleGraph.getModuleById(resolvedVirtualModuleId)
-    if (!mod)
-      return
+    if (!mod) { return }
     server.moduleGraph.invalidateModule(mod, undefined, Date.now())
   }
 
@@ -58,8 +55,9 @@ export const svgsprites = (options: Options = {}): Plugin => {
       })
     },
     resolveId(id: string) {
-      if (id === virtualModuleId)
+      if (id === virtualModuleId) {
         return resolvedVirtualModuleId
+      }
     },
     load(id: string) {
       if (id === resolvedVirtualModuleId) {

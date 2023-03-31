@@ -13,13 +13,11 @@ export const TopMenu: React.FC<Props> = (props) => {
   const maskStyles = useSpring({
     opacity: visible ? 1 : 0,
     onStart: ({ value }) => {
-      if (value.opacity < 0.1)
-        setMaskVisible(true)
+      if (value.opacity < 0.1) { setMaskVisible(true) }
     },
     onRest: ({ value }) => {
-      if (value.opacity < 0.1)
-        setMaskVisible(false)
-    },
+      if (value.opacity < 0.1) { setMaskVisible(false) }
+    }
   })
   const menuStyles = useSpring({
     opacity: visible ? 1 : 0,
@@ -27,7 +25,7 @@ export const TopMenu: React.FC<Props> = (props) => {
   })
   const styles = {
     ...maskStyles,
-    visibility: (maskVisible ? 'visible' : 'hidden') as 'visible' | 'hidden',
+    visibility: (maskVisible ? 'visible' : 'hidden') as 'visible' | 'hidden'
   } // workaround
   return (
     <>

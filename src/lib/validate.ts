@@ -81,8 +81,7 @@ function isEmpty(value: undefined | JSONValue | Data) {
 export function hasError(errors?: Record<string, string[]>) {
   // return Object.values(errors)
   // .reduce((result, value) => result + value.length, 0) > 0
-  if (!errors)
-    return false
+  if (!errors) { return false }
   let result = false
   for (const key in errors) {
     if (errors[key]?.length > 0) {
