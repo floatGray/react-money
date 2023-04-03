@@ -7,25 +7,29 @@ type Parts = {
   seconds: number
   ms: number
 }
-  type Unit =
-    | 'year' | 'years' | 'month' | 'months' | 'day' | 'days'
-    | 'hour' | 'hours' | 'minute' | 'minutes' | 'second' | 'seconds'
-    | 'ms'
+type Unit =
+  | 'year' | 'years' | 'month' | 'months' | 'day' | 'days'
+  | 'hour' | 'hours' | 'minute' | 'minutes' | 'second' | 'seconds'
+  | 'ms'
 
 export const time = (p?: number | string | Date) => {
   return new Time(p)
 }
 
 export class Time {
-  date: Date
+  #date: Date
   constructor(p?: number | string | Date) {
-    this.date = p ? new Date(p) : new Date()
+    this.#date = p ? new Date(p) : new Date()
+  }
+
+  get lastDayOfMonth() {
+    return new Time(new Date(this.year, this.month - 1 + 1, 0))
   }
 
   /**
-     * 格式化输出
-     * @param pattern 目前只支持 yyyy MM dd HH mm ss fff
-     */
+   * 格式化输出
+   * @param pattern 目前只支持 yyyy MM dd HH mm ss fff
+   */
   format(pattern = 'yyyy-MM-dd') {
     return pattern
       .replace(/yyyy/g, this.year.toString())
@@ -57,22 +61,22 @@ export class Time {
     return this
   }
 
-  get timestamp() {
-    return this.date.getTime()
+  get date() {
+    return new Date(this.#date)
   }
 
-  get lastDayOfMonth() {
-    return new Time(new Date(this.year, this.month - 1 + 1, 0))
+  get timestamp() {
+    return this.#date.getTime()
   }
 
   get parts(): Parts {
-    const year = this.date.getFullYear()
-    const month = this.date.getMonth() + 1
-    const day = this.date.getDate()
-    const hours = this.date.getHours()
-    const minutes = this.date.getMinutes()
-    const seconds = this.date.getSeconds()
-    const ms = this.date.getMilliseconds()
+    const year = this.#date.getFullYear()
+    const month = this.#date.getMonth() + 1
+    const day = this.#date.getDate()
+    const hours = this.#date.getHours()
+    const minutes = this.#date.getMinutes()
+    const seconds = this.#date.getSeconds()
+    const ms = this.#date.getMilliseconds()
     return {
       year, month, day, hours, minutes, seconds, ms
     }
@@ -92,7 +96,7 @@ export class Time {
       const k = key as keyof typeof p
       const methodName = table[k]
       value = k === 'month' ? value - 1 : value
-      this.date[methodName](value)
+      this.#date[methodName](value)
     })
   }
 
