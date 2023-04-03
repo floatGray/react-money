@@ -57,6 +57,14 @@ export class Time {
     return this
   }
 
+  get timestamp() {
+    return this.date.getTime()
+  }
+
+  get lastDayOfMonth() {
+    return new Time(new Date(this.year, this.month - 1 + 1, 0))
+  }
+
   get parts(): Parts {
     const year = this.date.getFullYear()
     const month = this.date.getMonth() + 1

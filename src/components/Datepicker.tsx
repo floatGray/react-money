@@ -1,68 +1,92 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { time } from '../lib/time'
 
 type Props = {
   start?: Date
   end?: Date
   value?: Date
+  onChange?: (value: Date) => void
 }
-export const Datepicker: React.FC<Props> = (props) => {
-  const { start, end, value } = props
+type ColumnProps = {
+  className?: string
+  itemHeight?: number
+  items: number[]
+  value: number
+  onChange: (value: number) => void
+}
+
+export const Column: React.FC<ColumnProps> = (props) => {
+  const { items, itemHeight = 36, className, value, onChange } = props
+  const index = items.indexOf(value)
   const [isTouching, setIsTouching] = useState(false)
   const [lastY, setLastY] = useState(-1)
-  const [translateY, setTranslateY] = useState(0)
+  const [translateY, _setTranslateY] = useState(index * -itemHeight)
+  const setTranslateY = (y: number) => {
+    y = Math.min(y, 0)
+    y = Math.max(y, (items.length - 1) * -itemHeight)
+    _setTranslateY(y)
+  }
   return (
-    <div h="50vh" overflow-hidden relative
-      onTouchStart={(e) => {
-        setIsTouching(true)
-        setLastY(e.touches[0].clientY)
-      }}
-      onTouchMove={(e) => {
-        if (isTouching) {
-          const y = e.touches[0].clientY
-          const dy = y - lastY
-          setTranslateY(translateY + dy)
-          setLastY(y)
-        }
-      }}
-      onTouchEnd={() => {
-        const remainder = translateY % 36
-        let y = translateY - remainder
-        if (Math.abs(remainder) > 18) {
-          y += 36 * (remainder > 0 ? 1 : -1)
-        }
-        setTranslateY(y)
-        setIsTouching(false)
-      }}
-    >
-      <div b-1 b-red h-36px absolute top="[calc(50%-18px)]" w-full />
-      <div absolute top="[calc(50%-18px-108px)]" w-full>
-        <ol style={{ transform: `translateY(${translateY}px)` }}
-          children-h-36px text-center children-leading-36px>
-          <li>2000</li>
-          <li>2001</li>
-          <li>2002</li>
-          <li>2003</li>
-          <li>2004</li>
-          <li>2005</li>
-          <li>2006</li>
-          <li>2007</li>
-          <li>2008</li>
-          <li>2009</li>
-          <li>2010</li>
-          <li>2011</li>
-          <li>2012</li>
-          <li>2013</li>
-          <li>2014</li>
-          <li>2015</li>
-          <li>2016</li>
-          <li>2017</li>
-          <li>2018</li>
-          <li>2019</li>
-          <li>2020</li>
-          <li>2021</li>
-          <li>2022</li>
-        </ol>
+      <div className={className} h="50vh" overflow-hidden relative
+        onTouchStart={(e) => {
+          setIsTouching(true)
+          setLastY(e.touches[0].clientY)
+        }}
+        onTouchMove={(e) => {
+          if (isTouching) {
+            const y = e.touches[0].clientY
+            const dy = y - lastY
+            setTranslateY(translateY + dy)
+            setLastY(y)
+          }
+        }}
+        onTouchEnd={() => {
+          const remainder = translateY % itemHeight
+          let y = translateY - remainder
+          if (Math.abs(remainder) > 18) {
+            y += itemHeight * (remainder > 0 ? 1 : -1)
+          }
+          setTranslateY(y)
+          setIsTouching(false)
+          onChange(items[Math.abs(y / itemHeight)])
+        }}
+      >
+        <div border-b-1 border-t-1 b="#eee" absolute top="50%" w-full
+          style={{ height: itemHeight, transform: `translateY(${-itemHeight / 2}px)` }} />
+        <div absolute top="50%" w-full style={{ transform: `translateY(${-itemHeight / 2}px)` }}>
+          <ol style={{ transform: `translateY(${translateY}px)` }} text-center children-flex children-items-center children-justify-center>
+            {items.map(item =>
+              <li key={item} style={{ height: itemHeight }}>{item}</li>
+            )}
+          </ol>
+        </div>
       </div>
+  )
+}
+
+// useRef + forceUpdate
+export const Datepicker: React.FC<Props> = (props) => {
+  const { start, end, value, onChange } = props
+  const startTime = start ? time(start) : time().add(-10, 'years')
+  const endTime = end ? time(end) : time().add(10, 'year')
+  if (endTime.timestamp <= startTime.timestamp) {
+    throw new Error('结束时间必须晚于开始时间')
+  }
+  const [, update] = useState({})
+  const valueTime = useRef(value ? time(value) : time())
+  const yearList = Array.from({ length: endTime.year - startTime.year + 1 })
+    .map((_, index) => startTime.year + index)
+  const monthList = Array.from({ length: 12 }).map((_, index) => index + 1)
+  const dayList = Array.from({ length: valueTime.current.lastDayOfMonth.day }).map((_, index) => index + 1)
+  return (
+    <div flex>
+      <Column className="grow-1" items={yearList} value={valueTime.current.year}
+        onChange={(year) => { valueTime.current.year = year; update({}); onChange?.(valueTime.current.date) }} />
+      <Column className="grow-1" items={monthList} value={valueTime.current.month}
+        onChange={(month) => { valueTime.current.month = month; update({}); onChange?.(valueTime.current.date) }} />
+      <Column className="grow-1" items={dayList} value={valueTime.current.day}
+        onChange={(day) => { valueTime.current.day = day; update({}); onChange?.(valueTime.current.date) }} />
     </div>
   )
 }
+
