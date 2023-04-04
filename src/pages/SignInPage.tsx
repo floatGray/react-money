@@ -13,14 +13,14 @@ export const SignInPage: React.FC = () => {
   const nav = useNavigate()
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
-    const error = validate(data, [
+    const newError = validate(data, [
       { key: 'email', type: 'required', message: '请输入邮箱地址' },
       { key: 'email', type: 'pattern', regex: /^.+@.+$/, message: '邮箱地址格式不正确' },
       { key: 'code', type: 'required', message: '请输入验证码' },
       { key: 'code', type: 'length', min: 6, max: 6, message: '验证码必须是6个字符' },
     ])
-    setError(error)
-    if (!hasError(error)) {
+    setError(newError)
+    if (!hasError(newError)) {
       await ajax.post('/api/v1/session', data)
       // TODO
       // 保存 JWT 作为登录凭证
@@ -38,17 +38,11 @@ export const SignInPage: React.FC = () => {
       </div>
       <form j-form onSubmit={onSubmit}>
         <Input label='邮箱地址' placeholder='请输入邮箱，然后点击发送验证码'
-          value={data.email} onChange={value => setData({ email: value })}
+          value={data.email} onChange={email => setData({ email })}
           error={error.email?.[0]} />
-        <div>
-          <span j-form-label>验证码 {error.code?.[0] && <span text-red>{error.code[0]}</span>}</span>
-          <div flex gap-x-16px>
-            <input shrink-1 j-input-text type="text" placeholder='六位数字'
-              max-w="[calc(40%-8px)]"
-              value={data.code} onChange={e => setData({ code: e.target.value })} />
-            <button max-w="[calc(60%-8px)]" shrink-0 j-btn>发送验证码</button>
-          </div>
-        </div>
+        <Input label='验证码' type="sms_code" placeholder='六位数字' value={data.code}
+          onChange={value => setData({ code: value })}
+          error={error.code?.[0]} />
         <div mt-100px>
           <button j-btn type="submit" >登录</button>
         </div>
