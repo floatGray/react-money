@@ -15,7 +15,8 @@ export const EmojiInput: React.FC<Props> = (props) => {
         {emojis.map(emoji =>
           <span whitespace-nowrap key={emoji.name}
             className={emoji.name === emojiKind ? s.selectedTag : ''}
-            onClick={() => setEmojiKind(emoji.name)}>{emoji.name}</span>
+            onClick={() => setEmojiKind(emoji.name)}>{emoji.name}
+          </span>
         )}
       </div>
       <div text-24px p-t-8px p-b-16px h-300px overflow-auto text-center>
