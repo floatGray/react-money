@@ -28,10 +28,12 @@ export const SignInPage: React.FC = () => {
     ])
     setError(newError)
     if (!hasError(newError)) {
+      // 发送请求
       const response = await ajax.post<{ jwt: string }>('http://121.196.236.94:8080/api/v1/session', data)
         .catch(onSubmitError)
+        // 获取 JWT
       const jwt = response.data.jwt
-      console.log('jwt', jwt)
+      // JWT 放入 localStorage
       localStorage.setItem('jwt', jwt)
       nav('/home')
     }
@@ -41,10 +43,7 @@ export const SignInPage: React.FC = () => {
       { key: 'email', type: 'pattern', regex: /^.+@.+$/, message: '邮箱地址格式不正确' }
     ])
     setError(newError)
-    if (hasError(newError)) {
-      console.log('有错')
-    } else {
-      console.log('没错')
+    if (!hasError(newError)) {
       // 请求
       const response = await axios.post('http://121.196.236.94:8080/api/v1/validation_codes', {
         email: data.email
