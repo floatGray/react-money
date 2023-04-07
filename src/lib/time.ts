@@ -17,13 +17,27 @@ export const time = (p?: number | string | Date) => {
 }
 
 export class Time {
+  static DAY = 24 * 60 * 60 * 1000
   #date: Date
   constructor(p?: number | string | Date) {
     this.#date = p ? new Date(p) : new Date()
   }
 
+  set(parts: Partial<Parts>) {
+    this.parts = parts
+    return this
+  }
+
   get lastDayOfMonth() {
     return new Time(new Date(this.year, this.month - 1 + 1, 0))
+  }
+
+  get firstDayOfMonth() {
+    return new Time(new Date(this.year, this.month - 1, 1))
+  }
+
+  get dayCountOfMonth() {
+    return this.lastDayOfMonth.day
   }
 
   /**
@@ -100,6 +114,11 @@ export class Time {
     })
   }
 
+  removeTime() {
+    this.set({ hours: 0, minutes: 0, seconds: 0, ms: 0 })
+    return this
+  }
+
   get year() {
     return this.parts.year
   }
@@ -154,6 +173,10 @@ export class Time {
 
   set ms(v) {
     this.parts = { ms: v }
+  }
+
+  get clone() {
+    return new Time(this.#date)
   }
 
   get isoString() {
