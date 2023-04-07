@@ -21,7 +21,6 @@ type Options = {
   handleError?: boolean
 }
 export const useAjax = (options?: Options) => {
-  const nav = useNavigate()
   const table: Record<string, undefined | (() => void)> = {
     401: () => {
       nav('/sign_in')
@@ -39,7 +38,7 @@ export const useAjax = (options?: Options) => {
   const showLoading = options?.showLoading || false
   const handleError = options?.handleError ?? true
   const { setVisible } = useLoadingStore()
-
+  const nav = useNavigate()
   const onError = (error: AxiosError) => {
     if (error.response) {
       if (handleError) {

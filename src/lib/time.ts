@@ -28,7 +28,7 @@ export class Time {
 
   /**
    * 格式化输出
-   * @param pattern 目前只支持 yyyy MM dd HH mm ss fff
+   * @param pattern 目前只支持 yyyy MM dd HH mm ss fff，默认值为 'yyyy-MM-dd'
    */
   format(pattern = 'yyyy-MM-dd') {
     return pattern
@@ -154,5 +154,13 @@ export class Time {
 
   set ms(v) {
     this.parts = { ms: v }
+  }
+
+  get isoString() {
+    const timezone = Math.round(-this.#date.getTimezoneOffset() / 60)
+    const absolute = Math.abs(timezone)
+    const sign = timezone > 0 ? '+' : '-'
+    const pad = absolute.toString().padStart(2, '0')
+    return `${this.format('yyyy-MM-ddTHH:mm:ss.fff') + sign + pad}:00`
   }
 }
