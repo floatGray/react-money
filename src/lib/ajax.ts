@@ -30,9 +30,6 @@ export const useAjax = (options?: Options) => {
     },
     403: () => {
       window.alert('没有权限')
-    },
-    unknown: () => {
-      window.alert('未知错误')
     }
   }
   const showLoading = options?.showLoading || false
@@ -43,7 +40,7 @@ export const useAjax = (options?: Options) => {
     if (error.response) {
       if (handleError) {
         const { status } = error.response
-        const fn = table[status] || table.unknown
+        const fn = table[status]
         fn?.()
       }
     }
@@ -51,7 +48,10 @@ export const useAjax = (options?: Options) => {
   }
   const ajax = {
     get: <T>(path: string, config?: AxiosRequestConfig<any>) => {
-      return axios.get<T>(path, config).catch(onError)
+      if (showLoading) { setVisible(true) }
+      return axios.get<T>(path, config).catch(onError).finally(() => {
+        if (showLoading) { setVisible(false) }
+      })
     },
     post: <T>(path: string, data: JSONValue) => {
       if (showLoading) { setVisible(true) }
@@ -59,8 +59,18 @@ export const useAjax = (options?: Options) => {
         if (showLoading) { setVisible(false) }
       })
     },
-    patch: () => { },
-    delete: () => { },
+    patch: <T>(path: string, data: JSONValue) => {
+      if (showLoading) { setVisible(true) }
+      return axios.patch<T>(path, data).catch(onError).finally(() => {
+        if (showLoading) { setVisible(false) }
+      })
+    },
+    destroy: <T>(path: string) => {
+      if (showLoading) { setVisible(true) }
+      return axios.delete<T>(path).catch(onError).finally(() => {
+        if (showLoading) { setVisible(false) }
+      })
+    },
   }
   return ajax
 }

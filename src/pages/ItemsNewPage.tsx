@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
+import { BackIcon } from '../components/BackIcon'
 import { Gradient } from '../components/Gradient'
-import { Icon } from '../components/Icon'
 import { Tabs } from '../components/Tabs'
 import { TopNav } from '../components/TopNav'
 import { useAjax } from '../lib/ajax'
@@ -14,7 +14,7 @@ import { Tags } from './ItemsNewPage/Tags'
 export const ItemsNewPage: React.FC = () => {
   const { data, setData, setError } = useCreateItemStore()
   const tabItems: { key: Item['kind']; text: string; element?: ReactNode }[] = [
-    { // JetBrains Mono
+    {
       key: 'expenses',
       text: '支出',
       element:
@@ -26,7 +26,7 @@ export const ItemsNewPage: React.FC = () => {
       element:
         <Tags kind="income" value={data.tag_ids} onChange={ids => setData({ tag_ids: ids })} />
     }
-  ]
+  ] // React DOM diff 的优化
   const { post } = useAjax({ showLoading: true, handleError: true })
   const onSubmit = async () => {
     const error = validate(data, [
@@ -48,7 +48,7 @@ export const ItemsNewPage: React.FC = () => {
   return (
     <div className={s.wrapper} h-screen flex flex-col onSubmit={onSubmit}>
       <Gradient className="grow-0 shrink-0">
-        <TopNav title="记一笔" icon={<Icon name="back" />} />
+        <TopNav title="记一笔" icon={<BackIcon />} />
       </Gradient>
       <Tabs tabItems={tabItems} className="text-center grow-1 shrink-1 overflow-hidden"
         classPrefix='itemsNewPage'
