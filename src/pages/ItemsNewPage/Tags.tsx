@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import useSWRInfinite from 'swr/infinite'
 import { Icon } from '../../components/Icon'
+import { LongPressable } from '../../components/LongPressable'
 import { useAjax } from '../../lib/ajax'
 
 type Props = {
@@ -36,6 +37,7 @@ export const Tags: React.FC<Props> = (props) => {
   const onLoadMore = () => {
     setSize(size + 1)
   }
+  const nav = useNavigate()
   if (!data) {
     return <div>空</div>
   } else {
@@ -56,15 +58,17 @@ export const Tags: React.FC<Props> = (props) => {
           {
             data.map(({ resources }, index) => {
               return resources.map((tag, index) =>
-                <li key={index} w-48px flex justify-center items-center flex-col gap-y-8px
-                  onClick={() => { props.onChange?.([tag.id]) }}>
-                  {props.value?.includes(tag.id)
-                    ? <span block w-48px h-48px rounded="24px" bg="#EFEFEF"
-                      flex justify-center items-center text-24px b-1 b="#8F4CD7">{tag.sign}</span>
-                    : <span block w-48px h-48px rounded="24px" bg="#EFEFEF"
-                      flex justify-center items-center text-24px b-1 b-transparent>{tag.sign}</span>
-                  }
-                  <span text-12px text="#666">{tag.name}</span>
+                <li key={index} onClick={() => { props.onChange?.([tag.id]) }} >
+                  <LongPressable className="w-48px flex justify-center items-center flex-col gap-y-8px"
+                    onEnd={() => { nav(`/tags/${tag.id}`) }}>
+                    {props.value?.includes(tag.id)
+                      ? <span block w-48px h-48px rounded="24px" bg="#EFEFEF"
+                        flex justify-center items-center text-24px b-1 b="#8F4CD7">{tag.sign}</span>
+                      : <span block w-48px h-48px rounded="24px" bg="#EFEFEF"
+                        flex justify-center items-center text-24px b-1 b-transparent>{tag.sign}</span>
+                    }
+                    <span text-12px text="#666">{tag.name}</span>
+                  </LongPressable>
                 </li>
               )
             })
