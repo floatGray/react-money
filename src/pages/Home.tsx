@@ -1,15 +1,12 @@
 import useSWR from 'swr'
-import { Navigate } from 'react-router-dom'
-import p from '../assets/images/pig.svg'
+import { Link, Navigate } from 'react-router-dom'
 import { useAjax } from '../lib/ajax'
-import { useTitle } from '../hooks/useTitle'
 import { Loading } from '../components/Loading'
 import { AddItemFloatButton } from '../components/AddItemFloatButton'
+import { Icon } from '../components/Icon'
 interface Props {
-  title?: string
 }
 export const Home: React.FC<Props> = (props) => {
-  useTitle(props.title)
   const { get } = useAjax({ showLoading: true, handleError: false })
   const { data: meData, error: meError } = useSWR('/api/v1/me', async (path) => {
     // 如果返回 403 就让用户先登录
@@ -33,10 +30,12 @@ export const Home: React.FC<Props> = (props) => {
 
   return <div>
     <div flex justify-center items-center>
-      <img mt-20vh mb-20vh width="128" height="130" src={p} />
+      <Icon className="mt-20vh mb-20vh w-128px h-128px" name="pig" />
     </div>
     <div px-16px>
-      <button j-btn>开始记账</button>
+      <Link to="/items/new">
+        <button j-btn>开始记账</button>
+      </Link>
     </div>
     <AddItemFloatButton />
   </div >

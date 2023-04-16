@@ -1,9 +1,11 @@
 import type { ReactNode } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { BackIcon } from '../components/BackIcon'
 import { Gradient } from '../components/Gradient'
 import { Tabs } from '../components/Tabs'
 import { TopNav } from '../components/TopNav'
 import { useAjax } from '../lib/ajax'
+import { time } from '../lib/time'
 import { hasError, validate } from '../lib/validate'
 import { useCreateItemStore } from '../stores/useCreateItemStore'
 import s from './ItemsNewPage.module.scss'
@@ -28,6 +30,7 @@ export const ItemsNewPage: React.FC = () => {
     }
   ] // React DOM diff 的优化
   const { post } = useAjax({ showLoading: true, handleError: true })
+  const nav = useNavigate()
   const onSubmit = async () => {
     const error = validate(data, [
       { key: 'kind', type: 'required', message: '请选择类型：收入或支出' },
@@ -41,8 +44,9 @@ export const ItemsNewPage: React.FC = () => {
       const message = Object.values(error).flat().join('\n')
       window.alert(message)
     } else {
-      const response = await post<Resource<Item>>('/api/v1/items', data)
-      console.log(response.data.resource)
+      await post<Resource<Item>>('/api/v1/items', data)
+      setData({ amount: 0, happen_at: time().isoString })
+      nav('/items')
     }
   }
   return (
