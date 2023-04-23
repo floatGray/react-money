@@ -1,5 +1,5 @@
 import type { FormEventHandler } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import type { AxiosError } from 'axios'
 import { Gradient } from '../components/Gradient'
 import { Icon } from '../components/Icon'
@@ -18,7 +18,6 @@ export const SignInPage: React.FC = () => {
     setError(err.response?.data?.errors ?? {})
     throw error
   }
-  const [search] = useSearchParams()
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
     const newError = validate(data, [
@@ -55,17 +54,17 @@ export const SignInPage: React.FC = () => {
   return (
     <div>
       <Gradient>
-        <TopNav title="登录" icon={<Icon name="back" />} />
+        <TopNav title="登录" icon={<Icon name="logo" />} />
       </Gradient>
       <div text-center pt-40px pb-16px>
         <Icon name="logo" className='w-64px h-68px' />
-        <h1 text-32px text="#7878FF" font-bold>山竹记账</h1>
+        <h1 text-32px text="#f68084 " font-bold>简单记账</h1>
       </div>
       <form j-form onSubmit={onSubmit}>
         <Input label='邮箱地址' placeholder='请输入邮箱，然后点击发送验证码'
           value={data.email} onChange={email => setData({ email })}
           error={error.email?.[0]} />
-        <Input label='验证码' type="sms_code" placeholder='六位数字' value={data.code}
+        <Input label='验证码(默认123456可登录)' type="sms_code" placeholder='六位数字' value={data.code}
           onChange={value => setData({ code: value })}
           error={error.code?.[0]} request={sendSmsCode} />
         <div mt-100px>

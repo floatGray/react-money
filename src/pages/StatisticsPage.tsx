@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import useSWR from 'swr'
 import { Gradient } from '../components/Gradient'
-import { Icon } from '../components/Icon'
 import type { TimeRange } from '../components/TimeRangePicker'
 import { TimeRangePicker } from '../components/TimeRangePicker'
 import { TopNav } from '../components/TopNav'
@@ -35,13 +34,14 @@ export const StatisticsPage: React.FC = () => {
   const [kind, setKind] = useState<Item['kind']>('expenses')
   const { get } = useAjax({ showLoading: false, handleError: true })
 
+  const { start, end } = timeRange
   const generateDefaultItems = (time: Time) => {
     return Array.from({ length: start.dayCountOfMonth }).map((_, i) => {
       const x = start.clone.add(i, 'day').format(format)
       return { x, y: 0 }
     })
   }
-  const { start, end } = timeRange
+
   const defaultItems = generateDefaultItems(start)
   const { data: items } = useSWR(getKey({ start, end, kind, group_by: 'happen_at' }),
     async path =>

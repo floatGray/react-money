@@ -4,6 +4,8 @@ import { useAjax } from '../lib/ajax'
 import { Loading } from '../components/Loading'
 import { AddItemFloatButton } from '../components/AddItemFloatButton'
 import { Icon } from '../components/Icon'
+import { Gradient } from '../components/Gradient'
+import { TopNav } from '../components/TopNav'
 interface Props {
 }
 export const Home: React.FC<Props> = (props) => {
@@ -29,8 +31,11 @@ export const Home: React.FC<Props> = (props) => {
   }
 
   return <div>
+    <Gradient>
+        <TopNav title="开始记账吧" icon={<Icon name="logo" />} />
+      </Gradient>
     <div flex justify-center items-center>
-      <Icon className="mt-20vh mb-20vh w-128px h-128px" name="pig" />
+      <Icon className="mt-20vh mb-20vh w-128px h-128px" name="logo" />
     </div>
     <div px-16px>
       <Link to="/items/new">
